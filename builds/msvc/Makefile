@@ -62,7 +62,7 @@ CC = gcc -std=gnu99
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -std=gnu99 -E
-CPPFLAGS = -pedantic -Werror -Wall -D_GNU_SOURCE -DLINUX -D_REENTRANT -D_THREAD_SAFE 
+CPPFLAGS = -pedantic -Wall -D_GNU_SOURCE -DLINUX -D_REENTRANT -D_THREAD_SAFE 
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
