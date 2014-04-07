@@ -64,7 +64,7 @@ curve_server_new (zctx_t *ctx, zcert_t **cert_p)
     assert (self->data);
     int rc = zsocket_bind (self->data, "inproc://data-%p", self->data);
     assert (rc != -1);
-    zstr_sendm (self->control, "inproc://data-%p", self->data);
+    zstr_sendm (self->control, "inproc://data-%p");
     
     //  Now send cert on control socket as well
     rc = zmq_send (self->control, zcert_public_key (*cert_p), 32, ZMQ_SNDMORE);
@@ -120,7 +120,7 @@ curve_server_set_verbose (curve_server_t *self, bool verbose)
 {
     assert (self);
     zstr_sendm (self->control, "VERBOSE");
-    zstr_send  (self->control, "%d", verbose);
+    zstr_sendf (self->control, "%d", verbose);
 }
 
 
@@ -132,7 +132,7 @@ curve_server_set_max_clients (curve_server_t *self, int limit)
 {
     assert (self);
     zstr_sendm (self->control, "MAX CLIENTS");
-    zstr_send  (self->control, "%d", limit);
+    zstr_sendf  (self->control, "%d", limit);
 }
 
 
@@ -144,7 +144,7 @@ curve_server_set_max_pending (curve_server_t *self, int limit)
 {
     assert (self);
     zstr_sendm (self->control, "MAX PENDING");
-    zstr_send  (self->control, "%d", limit);
+    zstr_sendf  (self->control, "%d", limit);
 }
 
 
@@ -156,7 +156,7 @@ curve_server_set_client_ttl (curve_server_t *self, int limit)
 {
     assert (self);
     zstr_sendm (self->control, "CLIENT TTL");
-    zstr_send  (self->control, "%d", limit);
+    zstr_sendf  (self->control, "%d", limit);
 }
 
 
@@ -168,7 +168,7 @@ curve_server_set_pending_ttl (curve_server_t *self, int limit)
 {
     assert (self);
     zstr_sendm (self->control, "PENDING TTL");
-    zstr_send  (self->control, "%d", limit);
+    zstr_sendf  (self->control, "%d", limit);
 }
 
 
@@ -610,7 +610,8 @@ client_task (void *args)
     bool verbose = *((bool *) args);
     
     zcert_t *client_cert = zcert_new ();
-    zcert_save_public (client_cert, TESTDIR "/client-%07d.cert", randof (10000000));
+    // zcert_save_public (client_cert, TESTDIR "/client-%07d.cert", randof (10000000));
+    zcert_save_public (client_cert, TESTDIR "/client-%07d.cert");
     curve_client_t *client = curve_client_new (&client_cert);
     curve_client_set_verbose (client, verbose);
 

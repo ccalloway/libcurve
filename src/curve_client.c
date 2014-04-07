@@ -65,7 +65,7 @@ curve_client_new (zcert_t **cert_p)
     assert (self->data);
     int rc = zsocket_bind (self->data, "inproc://data-%p", self->data);
     assert (rc != -1);
-    zstr_sendm (self->control, "inproc://data-%p", self->data);
+    zstr_sendm (self->control, "inproc://data-%p");
    
     //  Now send cert on control socket as well
     rc = zmq_send (self->control, zcert_public_key (*cert_p), 32, ZMQ_SNDMORE);
@@ -123,7 +123,7 @@ curve_client_set_verbose (curve_client_t *self, bool verbose)
 {
     assert (self);
     zstr_sendm (self->control, "VERBOSE");
-    zstr_send  (self->control, "%d", verbose);
+    zstr_sendf  (self->control, "%d", verbose);
 }
 
 
