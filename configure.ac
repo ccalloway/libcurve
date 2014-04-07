@@ -101,6 +101,9 @@ if test "x$fmq_search_libczmq" = "xyes"; then
     if test -r "${with_libczmq}/include/czmq.h"; then
         CFLAGS="-I${with_libczmq}/include ${CFLAGS}"
         LDFLAGS="-L${with_libczmq}/lib ${LDFLAGS}"
+
+        CFLAGS="-I/app/tmp/libsodium/include ${CFLAGS}"
+        LDFLAGS="-L/app/tmp/libsodium/lib ${LDFLAGS}"        
     else
         AC_MSG_ERROR([${with_libczmq}/include/czmq.h not found. Please check libczmq prefix])
     fi
